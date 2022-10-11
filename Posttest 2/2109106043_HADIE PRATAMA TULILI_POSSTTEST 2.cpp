@@ -18,17 +18,9 @@ struct Node
     Node *next;
 };
 
-int isEmpty(Node **head)
-{
-    if (*head == NULL)
-        return 1;
-    else
-        return 0;
-}
-
 struct anggota data_anggota; // Untuk mendeklarasikan sebuah  struct data yang bernama data_anggota
 
-int a, b, c, i, j, pilih, middle; // Untuk keperluan pertambahan indeks array, nomor, pilihan, dan perulangan
+int a, b, c, i, j, pilih, middle, hapus; // Untuk keperluan pertambahan indeks array, nomor, pilihan, dan perulangan
 
 string Nama; // Untuk variabel saat mencari nama data anggota
 
@@ -50,12 +42,12 @@ void hapusdata_last(Node **Head);
 int main()
 {
 
-	Node *Head = NULL;
+    Node *Head = NULL;
 
 // Terdapat label awal sebagai tempat untuk kembali ke menu utama setelah melakukan eksekusi data
 awal:
     system("cls");
-    system("color 6A");
+    system("color 3F");
     cout << "\n============================= PROGRAM CRUD DATA ANGGOTA =============================";
     cout << "\n=================================== PILIHAN MENU ====================================\n";
     cout << "\n\t\t\t\t1. Masukkan data di depan";
@@ -84,6 +76,7 @@ awal:
         {
             system("cls");
             inputdata_middle(&Head);
+            getch();
             goto awal;
         }
     case '3':
@@ -98,6 +91,8 @@ awal:
         {
             system("cls");
             lihatdata(Head);
+            getch();
+            system("cls");
             goto awal;
         }
     case '5':
@@ -105,6 +100,8 @@ awal:
         {
             system("cls");
             editdata(&Head);
+            getch();
+            system("cls");
             goto awal;
         }
     case '6':
@@ -112,20 +109,26 @@ awal:
         {
             system("cls");
             hapusdata_first(&Head);
+            getch();
+            system("cls");
             goto awal;
         }
     case '7':
         // goto yang berfungsi untuk melompat ke baris label
         {
             system("cls");
-            // hapusdata_middle(&Head);
+            hapusdata_middle(&Head);
+            getch();
+            system("cls");
             goto awal;
         }
     case '8':
         // goto yang berfungsi untuk melompat ke baris label
         {
             system("cls");
-            // hapusdata_last(&Head);
+            hapusdata_last(&Head);
+            getch();
+            system("cls");
             goto awal;
         }
     case '9':
@@ -169,13 +172,15 @@ awal:
 }
 
 // Menghitung panjang node
-int jumlah(Node *Head){
-	int i;
-	while(Head != NULL){
-		Head = Head->next;
-		i++;
-	}
-	return i;
+int jumlah(Node *Head)
+{
+    int i;
+    while (Head != NULL)
+    {
+        Head = Head->next;
+        i++;
+    }
+    return i;
 }
 
 // Prosedur untuk input data
@@ -183,7 +188,7 @@ void inputdata_first(Node **Head)
 {
     Node *nodeBaru = new Node;
 
-    system("color 6A");
+    system("color 3F");
     cout << "Nama Anggota\t\t\t\t: ";
     getline(cin, nodeBaru->data.nama);
     fflush(stdin);
@@ -212,49 +217,77 @@ void inputdata_middle(Node **Head)
 {
     middle = 0;
 
-    if (*Head == NULL) {
-        cout << ">> LinkedList masih kosong <<" << endl;
-        getch();
+    if (*Head == NULL)
+    {
+        cout << "\n===================== LinkedList Kosong  =====================";
         return;
     }
-    lihatdata(*Head);
-    cout << endl << "Pilih letak Tambah Data : ";cin >> middle;fflush(stdin);
-    system("cls");
-	Node *temp = *Head;
-	Node *nodeBaru = new Node;
-
-    if (middle > 1 && middle < jumlah(*Head))
+    else
     {
-        for (int i = 1; i < jumlah(*Head);i++)
+        apa:
+        lihatdata(*Head);
+        cout << "\n\nPilih letak Tambah Data : ";
+        cin >> middle;
+        fflush(stdin);
+        Node *temp = *Head;
+        Node *nodeBaru = new Node;
+
+        if (middle > 1 && middle < jumlah(*Head))
         {
-            if (i == middle-1)
+            for (int i = 1; i < jumlah(*Head); i++)
             {
-                system("color 6A");
-                cout << "Nama Anggota\t\t\t\t: ";
-                getline(cin, nodeBaru->data.nama);
-                fflush(stdin);
-                cout << "Jenis Kelamin (L / P)\t\t\t: ";
-                cin >> nodeBaru->data.kelamin;
-                fflush(stdin);
-                cout << "Tinggi Badan\t\t\t\t: ";
-                cin >> nodeBaru->data.tinggi;
-                fflush(stdin);
-                cout << "Berat Badan\t\t\t\t: ";
-                cin >> nodeBaru->data.berat;
-                fflush(stdin);
-                cout << "Umur\t\t\t\t\t: ";
-                cin >> nodeBaru->data.umur;
-                fflush(stdin);
+                if (i == middle - 1)
+                {
+                    system("color 3F");
+                    cout << "Nama Anggota\t\t\t\t: ";
+                    getline(cin, nodeBaru->data.nama);
+                    fflush(stdin);
+                    cout << "Jenis Kelamin (L / P)\t\t\t: ";
+                    cin >> nodeBaru->data.kelamin;
+                    fflush(stdin);
+                    cout << "Tinggi Badan\t\t\t\t: ";
+                    cin >> nodeBaru->data.tinggi;
+                    fflush(stdin);
+                    cout << "Berat Badan\t\t\t\t: ";
+                    cin >> nodeBaru->data.berat;
+                    fflush(stdin);
+                    cout << "Umur\t\t\t\t\t: ";
+                    cin >> nodeBaru->data.umur;
+                    fflush(stdin);
 
-                nodeBaru->next = temp->next;
-                temp->next = nodeBaru;
+                    nodeBaru->next = temp->next;
+                    temp->next = nodeBaru;
 
-                cout << "\n=========================== Data Berhasil Ditambahkan ===========================";
-                getch();
-                system("cls");    
+                    cout << "\n=========================== Data Berhasil Ditambahkan ===========================";
+                    break;
+                } 
+                temp = temp->next;
+            }
+        }
+        else 
+        {
+            cout << "Nomor data tidak ditemukan";
+
+            apaa:
+            // Untuk menanyakan user apakah ingin mengedit data lagi
+            cout << "\nApakah anda ingin menambahkan kembali ? (Y / T) : " << endl;
+            tanya = getch();
+            switch (tanya)
+            {
+            case ('y'):
+            case ('Y'):
+                system("cls");
+                goto apa;
+
+            case ('t'):
+            case ('T'):
                 break;
-            }        
-            temp = temp->next;
+            // Untuk kesalahan dalam memilih
+            default:
+                cout << "Pilihan yang anda masukkan salah, Mohon pilih kembali";
+                getch();
+                goto apaa;
+            }
         }
     }
 }
@@ -263,7 +296,7 @@ void inputdata_last(Node **Head)
 {
     Node *nodeBaru = new Node;
 
-    system("color 6A");
+    system("color 3F");
     cout << "Nama Anggota\t\t\t\t: ";
     getline(cin, nodeBaru->data.nama);
     fflush(stdin);
@@ -280,42 +313,46 @@ void inputdata_last(Node **Head)
     cin >> nodeBaru->data.umur;
     fflush(stdin);
 
-	if (*Head == NULL){
-		*Head = nodeBaru;
-	}else {
-		Node *temp = *Head;
-		while(temp->next != NULL){
-			temp = temp->next;
-		}temp->next = nodeBaru;
-	}
+    if (*Head == NULL)
+    {
+        *Head = nodeBaru;
+    }
+    else
+    {
+        Node *temp = *Head;
+        while (temp->next != NULL)
+        {
+            temp = temp->next;
+        }
+        temp->next = nodeBaru;
+    }
 
     cout << "\n=========================== Data Berhasil Ditambahkan ===========================";
     getch();
     system("cls");
 }
 
-
 // Prosedur untuk lihat data
 void lihatdata(Node *Head)
 {
-    system("color 6A");
+    system("color 3F");
 
     if (Head == NULL)
     {
-        cout << ">> LinkedList masih kosong <<" << endl;
-        getch();
+        cout << "\n===================== LinkedList Kosong  =====================";
         return;
-    } else
+    }
+    else
     {
         j = 0;
         cout << "\n============================================================= Menampilkan Data =======================================================================\n\n";
         cout << "======================================================================================================================================================\n";
         cout << "||" << setw(5) << "NO" << setw(5) << "||" << setw(25) << "Nama Anggota" << setw(15) << "||" << setw(25) << "Jenis Kelamin" << setw(15) << "||" << setw(15) << "Tinggi Badan" << setw(5) << "||" << setw(15) << "Berat Badan" << setw(5) << "||" << setw(10) << "Umur" << setw(8) << "||";
         cout << "\n======================================================================================================================================================";
-       
-        while(Head != NULL)
+
+        while (Head != NULL)
         {
-            
+
             // Variabel j untuk penomoran dalam tabel
             j += 1;
             cout << "\n";
@@ -328,102 +365,64 @@ void lihatdata(Node *Head)
             Head = Head->next;
             cout << "\n======================================================================================================================================================";
         }
-        getch();
-        system("cls");
     }
-
 }
 
 void editdata(Node **Head) // Prosedur untuk edit data
 {
 
-    if (Head == NULL)
+    if (*Head == NULL)
     {
-        cout << "LinkedList masih kosong" << endl;
+        cout << "\n===================== LinkedList Kosong  =====================";
         return;
     }
-
-// Terdapat label apa sebagai tempat untuk kembali mengedit data ketika salah dalam memilih pilihan
-apa:
-    system("cls");
-    system("color 6A");
-    cout << "Masukan nama anggota yang ingin diedit\t: ";
-    getline(cin, Nama);
-
-    Node *temp = *Head;
-
-    while (temp != NULL)
+    else
     {
-        if (temp->data.nama == Nama)
-        {
-            cout << "Nama Panggilan\t\t\t\t: ";
-            getline(cin, temp->data.nama);
-            fflush(stdin);
-            cout << "Jenis Kelamin (L / P)\t\t\t: ";
-            cin >> temp->data.kelamin;
-            fflush(stdin);
-            cout << "Tinggi Badan\t\t\t\t\t: ";
-            cin >> temp->data.tinggi;
-            fflush(stdin);
-            cout << "Berat Badan\t\t\t\t\t: ";
-            cin >> temp->data.berat;
-            fflush(stdin);
-            cout << "Umur\t\t\t\t\t: ";
-            cin >> temp->data.umur;
-            fflush(stdin);
-            cout << "\n============================================================ Data berhasil diedit ============================================================\n";
-            }
-        temp = temp->next;
-    }
-        cout << "Nama tidak ditemukan";
-
-        // Untuk menanyakan user apakah ingin mengedit data lagi
-        cout << "\nApakah anda ingin mengedit kembali ? (Y / T) : " << endl;
-        tanya = getch();
-        switch (tanya)
-        {
-        case ('y'):
-        case ('Y'):
-            system("cls");
-            goto apa;
-
-        case ('t'):
-        case ('T'):
-            goto langsungg;
-
-        // Untuk kesalahan dalam memilih
-        default:
-            cout << "Pilihan yang anda masukkan salah, Mohon pilih kembali";
-            getch();
-            goto apa;
-        }
-    // Terdapat label langsungg sebagai tempat untuk melihat data ketika sudah tidak ingin menghapus data
-    langsungg:
+        // Terdapat label apa sebagai tempat untuk kembali mengedit data ketika salah dalam memilih pilihan
+        apa:
+        
+        system("color 3F");
         lihatdata(*Head);
-}
+        cout << "\n\nMasukan nama anggota yang ingin diedit\t: ";
+        getline(cin, Nama);
 
-// Prosedur untuk hapus data
-void hapusdata_first(Node **Head)
-{
-// Terdapat label iya sebagai tempat untuk kembali menghapus data ketika salah dalam memilih pilihan
-iya:
-    system("color 6A");
-    system("cls");
-    cout << "\n============================================================ Data berhasil dihapus ============================================================\n";
-    break;
-        if (c == 10)
+        Node *temp = *Head;
+
+        while (temp != NULL)
         {
+            if (temp->data.nama == Nama)
+            {
+                cout << "Nama Panggilan\t\t\t\t: ";
+                getline(cin, temp->data.nama);
+                fflush(stdin);
+                cout << "Jenis Kelamin (L / P)\t\t\t: ";
+                cin >> temp->data.kelamin;
+                fflush(stdin);
+                cout << "Tinggi Badan\t\t\t\t: ";
+                cin >> temp->data.tinggi;
+                fflush(stdin);
+                cout << "Berat Badan\t\t\t\t: ";
+                cin >> temp->data.berat;
+                fflush(stdin);
+                cout << "Umur\t\t\t\t\t: ";
+                cin >> temp->data.umur;
+                fflush(stdin);
+                cout << "\n============================================================ Data berhasil diedit ============================================================\n";
+                return;
+            }temp = temp->next;   
+        }
             cout << "Nama tidak ditemukan";
 
-            // Untuk menanyakan user apakah ingin menghapus data lagi
-            cout << "\nApakah anda ingin menghapus kembali ? (Y / T) : " << endl;
+            apaa:
+            // Untuk menanyakan user apakah ingin mengedit data lagi
+            cout << "\nApakah anda ingin mengedit kembali ? (Y / T) : " << endl;
             tanya = getch();
             switch (tanya)
             {
             case ('y'):
             case ('Y'):
                 system("cls");
-                goto iya;
+                goto apa;
 
             case ('t'):
             case ('T'):
@@ -433,13 +432,116 @@ iya:
             default:
                 cout << "Pilihan yang anda masukkan salah, Mohon pilih kembali";
                 getch();
-                goto iya;
+                goto apaa;
+            }
+        // Terdapat label langsungg sebagai tempat untuk melihat data ketika sudah tidak ingin menghapus data
+        langsungg:
+            lihatdata(*Head);
+    }
+}
+
+// Prosedur untuk hapus data
+void hapusdata_first(Node **Head)
+{
+    if (*Head == NULL)
+    {
+        cout << "\n===================== LinkedList Kosong  =====================";
+        return;
+    }
+    else
+    {
+        *Head = (*Head)->next;
+        system("color 3F");
+        cout << "\n============================================================ Data berhasil dihapus ============================================================\n";
+        lihatdata(*Head);
+    }
+}
+
+// Prosedur untuk hapus data
+void hapusdata_middle(Node **Head)
+{
+    hapus = 0;
+
+    if (*Head == NULL)
+    {
+        cout << "\n===================== LinkedList Kosong  =====================";
+        return;
+    }
+    else
+    {
+        apa:
+        lihatdata(*Head);
+        system("color 3F");
+        cout<< "\n\nPilih letak data yang ingin dihapus: ";
+        cin >> hapus;
+        fflush(stdin);
+        Node *temp = *Head;
+
+        if (hapus > 1 && hapus < jumlah(*Head))
+        {
+            for (int i = 1; i < jumlah(*Head); i++)
+            {
+                if (i == hapus - 1)
+                {
+                    break;
+                }
+                temp = temp->next;
+            }
+            temp->next = temp->next->next;
+            cout << "\n================================================================ Data berhasil dihapus ===============================================================\n";
+        }
+        else
+        {
+            cout << "Data tidak ditemukan";
+        apaa:
+            // Untuk menanyakan user apakah ingin mengedit data lagi
+            cout << "\nApakah anda ingin menghapus kembali ? (Y / T) : " << endl;
+            tanya = getch();
+            switch (tanya)
+            {
+            case ('y'):
+            case ('Y'):
+                system("cls");
+                goto apa;
+
+            case ('t'):
+            case ('T'):
+                break;
+
+            // Untuk kesalahan dalam memilih
+            default:
+                cout << "Pilihan yang anda masukkan salah, Mohon pilih kembali";
+                getch();
+                goto apaa;
             }
         }
-        ptr_anggota = data_anggota;
     }
-
-// Terdapat label langsungg sebagai tempat untuk melihat data ketika sudah tidak ingin menghapus data
-langsungg:
-    lihatdata(ptr_anggota);
 }
+
+    // Prosedur untuk hapus data
+    void hapusdata_last(Node * *Head)
+    {
+        if (*Head == NULL)
+        {
+            cout << "\n=============================== LinkedList Kosong  =====================";
+            return;
+        }
+        else
+        {
+            Node *temp = *Head;
+
+            while (temp->next->next != NULL)
+            {
+                temp = temp->next;
+            }
+
+            Node *deleteNode = temp->next;
+            temp->next = NULL;
+            delete deleteNode;
+
+            system("color 3F");
+            cout << "\n============================================================ Data berhasil dihapus ============================================================\n";
+            getch();
+            lihatdata(*Head);
+        }
+    }
