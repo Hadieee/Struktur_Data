@@ -1455,7 +1455,7 @@ void tampilan_searching(Node **Head, Node **Tail)
 searching:
     cout << "\n=================================== SEARCHING DATA ANGGOTA ===================================";
     cout << "\n===================================== INPUT NAMA ANGGOTA =====================================\n";
-    cout << "Masukan nama anggota yang ingin dicari : ";
+    cout << "\nMasukan nama anggota yang ingin dicari : ";
     getline(cin, Nama);
     fflush(stdin);
     int ind = fibonacciSearch(*Head, Nama, jumlah(*Head));
